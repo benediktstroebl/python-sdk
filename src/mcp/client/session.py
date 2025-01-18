@@ -132,13 +132,13 @@ class ClientSession(
             types.ReadResourceResult,
         )
 
-    async def register_world(self, name: str, world: str | bytes) -> types.EmptyResult:
+    async def register_world(self, name: str) -> types.EmptyResult:
         """Send a worlds/register request."""
         return await self.send_request(
             types.ClientRequest(
                 types.RegisterWorldRequest(
                     method="worlds/register",
-                    params=types.RegisterWorldRequestParams(name=name, world=world),
+                    params=types.RegisterWorldRequestParams(name=name),
                 )
             ),
             types.EmptyResult,
