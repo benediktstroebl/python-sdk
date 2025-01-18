@@ -307,6 +307,37 @@ class PingRequest(Request):
 
     method: Literal["ping"]
     params: RequestParams | None = None
+    
+    
+class RegisterWorldRequestParams(RequestParams):
+    """Parameters for registering a world."""
+
+    name: str
+    """A human-readable name for this world."""
+    model_config = ConfigDict(extra="allow")
+    
+class RegisterWorldRequest(Request):
+    """Sent from the client to register a world with the server."""
+
+    method: Literal["worlds/register"]
+    params: RegisterWorldRequestParams
+    
+    
+class RegisterAgentRequestParams(RequestParams):
+    """Parameters for registering an agent."""
+
+    name: str
+    world_name: str
+    """A human-readable name for this agent."""
+    model_config = ConfigDict(extra="allow")
+    
+    
+class RegisterAgentRequest(Request):
+    """Sent from the client to register an agent with the server."""
+
+    method: Literal["agents/register"]
+    params: RegisterAgentRequestParams
+    
 
 
 class ProgressNotificationParams(NotificationParams):
@@ -356,6 +387,20 @@ class Resource(BaseModel):
     mimeType: str | None = None
     """The MIME type of this resource, if known."""
     model_config = ConfigDict(extra="allow")
+    
+class World(BaseModel):
+    """A known world that the server is capable of reading."""
+
+    name: str
+    """A human-readable name for this world."""
+    model_config = ConfigDict(extra="allow")
+    
+class Agent(BaseModel):
+    """A known agent that the server is capable of reading."""
+
+    name: str
+    """A human-readable name for this agent."""
+    model_config = ConfigDict(extra="allow")
 
 
 class ResourceTemplate(BaseModel):
@@ -382,6 +427,17 @@ class ListResourcesResult(PaginatedResult):
     """The server's response to a resources/list request from the client."""
 
     resources: list[Resource]
+    
+class ListWorldsResult(PaginatedResult):
+    """The server's response to a worlds/list request from the client."""
+
+    worlds: list[World]
+    
+
+class ListAgentsResult(PaginatedResult):
+    """The server's response to a agents/list request from the client."""
+
+    agents: list[Agent]
 
 
 class ListResourceTemplatesRequest(PaginatedRequest):

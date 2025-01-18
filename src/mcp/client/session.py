@@ -132,6 +132,30 @@ class ClientSession(
             types.ReadResourceResult,
         )
 
+    async def register_world(self, name: str, world: str | bytes) -> types.EmptyResult:
+        """Send a worlds/register request."""
+        return await self.send_request(
+            types.ClientRequest(
+                types.RegisterWorldRequest(
+                    method="worlds/register",
+                    params=types.RegisterWorldRequestParams(name=name, world=world),
+                )
+            ),
+            types.EmptyResult,
+        )
+
+    async def register_agent(self, name: str, world_name: str) -> types.EmptyResult:
+        """Send a agents/register request."""
+        return await self.send_request(
+            types.ClientRequest(
+                types.RegisterAgentRequest(
+                    method="agents/register",
+                    params=types.RegisterAgentRequestParams(name=name, world_name=world_name),
+                )
+            ),
+            types.EmptyResult,
+        )
+
     async def subscribe_resource(self, uri: AnyUrl) -> types.EmptyResult:
         """Send a resources/subscribe request."""
         return await self.send_request(

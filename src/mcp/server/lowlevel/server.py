@@ -235,6 +235,36 @@ class Server:
             return func
 
         return decorator
+    
+    def register_world(self):
+        def decorator(func: Callable[[Awaitable[str | bytes]], Awaitable[None]]):
+            logger.debug("Registering handler for RegisterWorldRequest")
+
+            async def handler(_: Any):
+                worlds = await func()
+                return types.ServerResult(
+                    types.Result()
+                )
+
+            self.request_handlers[types.RegisterWorldRequest] = handler
+            return func
+
+        return decorator
+    
+    def register_agent(self):
+        def decorator(func: Callable[[Awaitable[str | bytes], Awaitable[str | bytes]], Awaitable[None]]):
+            logger.debug("Registering handler for RegisterAgentRequest")
+
+            async def handler(_: Any):
+                agents = await func()
+                return types.ServerResult(
+                    types.Result()
+                )
+
+            self.request_handlers[types.RegisterAgentRequest] = handler
+            return func
+
+        return decorator
 
     def list_resource_templates(self):
         def decorator(func: Callable[[], Awaitable[list[types.ResourceTemplate]]]):
