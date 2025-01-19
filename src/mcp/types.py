@@ -1048,8 +1048,12 @@ class ClientRequest(
         | UnsubscribeRequest
         | CallToolRequest
         | ListToolsRequest
+        | RegisterWorldRequest
+        | RegisterAgentRequest
     ]
 ):
+    """A request that can be sent from the client to the server."""
+
     pass
 
 
@@ -1087,13 +1091,27 @@ class ServerResult(
         EmptyResult
         | InitializeResult
         | CompleteResult
-        | GetPromptResult
         | ListPromptsResult
         | ListResourcesResult
         | ListResourceTemplatesResult
         | ReadResourceResult
+        | GetPromptResult
         | CallToolResult
         | ListToolsResult
+        | RegisterWorldResult
+        | RegisterAgentResult
     ]
 ):
+    """A result that can be sent from the server to the client."""
+
+    pass
+
+
+class RegisterWorldResult(Result):
+    """The server's response to a worlds/register request from the client."""
+    pass
+
+
+class RegisterAgentResult(Result):
+    """The server's response to a agents/register request from the client."""
     pass
